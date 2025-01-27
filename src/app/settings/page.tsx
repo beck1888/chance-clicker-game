@@ -7,7 +7,7 @@ export default function Settings() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [showHighScore, setShowHighScore] = useState(true);
   const [buttonColor, setButtonColor] = useState("#F87171"); // Default red-400
-  const [darkMode, setDarkMode] = useState<'light' | 'dark' | 'system'>('system');
+  const [darkMode, setDarkMode] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
     const savedSoundSetting = localStorage.getItem("soundEnabled");
@@ -25,7 +25,7 @@ export default function Settings() {
       setButtonColor(savedButtonColor);
     }
     if (savedTheme) {
-      setDarkMode(savedTheme as 'light' | 'dark' | 'system');
+      setDarkMode(savedTheme as 'light' | 'dark');
     }
   }, []);
 
@@ -51,12 +51,12 @@ export default function Settings() {
     setSoundEnabled(false);
     setShowHighScore(true);
     setButtonColor("#F87171");
-    setDarkMode('system');
+    setDarkMode('light');
     localStorage.removeItem("soundEnabled");
     localStorage.removeItem("showHighScore");
     localStorage.removeItem("buttonColor");
     localStorage.removeItem("theme");
-    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.remove('dark');
   };
 
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,16 +65,11 @@ export default function Settings() {
     localStorage.setItem("buttonColor", newColor);
   };
 
-  const handleThemeChange = (theme: 'light' | 'dark' | 'system') => {
+  const handleThemeChange = (theme: 'light' | 'dark') => {
     setDarkMode(theme);
     localStorage.setItem("theme", theme);
-    if (theme === 'system') {
-      localStorage.removeItem("theme");
-    }
     document.documentElement.classList.remove('light', 'dark');
-    if (theme !== 'system') {
-      document.documentElement.classList.add(theme);
-    }
+    document.documentElement.classList.add(theme);
   };
 
   return (
@@ -118,12 +113,11 @@ export default function Settings() {
           <span>Theme</span>
           <select
             value={darkMode}
-            onChange={(e) => handleThemeChange(e.target.value as 'light' | 'dark' | 'system')}
+            onChange={(e) => handleThemeChange(e.target.value as 'light' | 'dark')}
             className={`p-2 border rounded ${document.documentElement.classList.contains('dark') ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-white text-black border-gray-300'}`}
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
-            <option value="system">System</option>
           </select>
         </div>
 

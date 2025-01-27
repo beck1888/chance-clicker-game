@@ -54,7 +54,7 @@ export default function RootLayout({
   }, [pathname]);
 
   return (
-    <html lang="en" className={localStorage.getItem("theme") || "light"}>
+    <html lang="en" className="light">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
