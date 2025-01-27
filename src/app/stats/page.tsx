@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
-import { CategoryScale, LinearScale } from "chart.js"; // Import CategoryScale and LinearScale
+import { CategoryScale, LinearScale } from "chart.js";
 
-Chart.register(CategoryScale, LinearScale); // Register CategoryScale and LinearScale
+Chart.register(CategoryScale, LinearScale);
 
 export default function Stats() {
   const [failStats, setFailStats] = useState<Record<number, number>>({});
@@ -15,14 +15,12 @@ export default function Stats() {
   const [lifetimeClicks, setLifetimeClicks] = useState(0);
 
   useEffect(() => {
-    // Fetch stats from local storage or API
     const stats = JSON.parse(localStorage.getItem("stats") || "{}");
     setFailStats(stats.failStats || {});
     setHighScore(stats.highScore || 0);
     setTimePlayed(stats.timePlayed || 0);
     setLifetimeClicks(stats.lifetimeClicks || 0);
 
-    // Determine most failed numbers
     const maxFails = Math.max(...Object.values(stats.failStats || {}) as number[]);
     const mostFailed = Object.entries(stats.failStats || {})
       .filter(([_, value]) => value === maxFails)
