@@ -32,6 +32,10 @@ export default function Home() {
         localStorage.setItem('highScore', newScore.toString());
       }
     }
+
+    // Play click sound
+    const audio = new Audio('/sounds/click.mp3');
+    audio.play();
   };
 
   return (
