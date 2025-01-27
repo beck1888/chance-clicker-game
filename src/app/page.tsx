@@ -5,12 +5,19 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const [clicks, setClicks] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const [startTime, setStartTime] = useState<Date | null>(null);
 
   // Load high score from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem('highScore');
     if (saved) setHighScore(parseInt(saved));
   }, []);
+
+  useEffect(() => {
+    if (clicks > 0 && !startTime) {
+      setStartTime(new Date());
+    }
+  }, [clicks]);
 
   const handleClick = () => {
     // Generate random number between 0 and 1
@@ -22,6 +29,15 @@ export default function Home() {
     // If random number is less than probability, reset to 0
     // Otherwise increment the counter
     if (chance < resetProbability) {
+      if (startTime) {
+        const endTime = new Date();
+        const timePlayed = Math.floor((endTime.getTime() - startTime.getTime()) / 1000);
+        const stats = JSON.parse(localStorage.getItem("stats") || "{}");
+        stats.timePlayed = (stats.timePlayed || 0) + timePlayed;
+        localStorage.setItem("stats", JSON.stringify(stats));
+        setStartTime(null);
+      }
+      trackFail(clicks); // Track the fail
       setClicks(0);
       // Play fail sound
       const failAudio = new Audio('/sounds/fail.mp3');
@@ -68,3 +84,15 @@ export default function Home() {
     </div>
   );
 }
+function trackFail(clicks: number) {
+  const stats = JSON.parse(localStorage.getItem("stats") || "{}");
+  stats.failStats = stats.failStats || {};
+  stats.failStats[clicks] = (stats.failStats[clicks] || 0) + 1;
+  stats.mostFailedNumber = Object.entries(stats.failStats)
+    .reduce<[string, number]>((a, [key, value]) => 
+      (value as number > (a[1] || 0) ? [key, value as number] : a), 
+      ['0', 0])[0];
+  localStorage.setItem("stats", JSON.stringify(stats));
+}
+  
+
