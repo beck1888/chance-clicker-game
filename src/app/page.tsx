@@ -50,9 +50,9 @@ export default function Home() {
       >
         Click
       </Button>
-      <div className="text-sm text-gray-500">
+      {/* <div className="text-sm text-gray-500">
         Reset chance: {clicks}%
-      </div>
+      </div> */}
     </div>
   );
 }
