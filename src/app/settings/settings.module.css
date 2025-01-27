@@ -7,34 +7,130 @@
   appearance: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: none; /* Hide the default checkbox */
 }
 
-.checkbox:checked {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
+.toggle {
+  position: relative;
+  width: 50px;
+  height: 24px;
 }
 
-.checkbox:checked::after {
-  content: '';
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
   position: absolute;
-  left: 5px;
-  top: 1px;
-  width: 6px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4ade80;
+}
+
+input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+.resetButton {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #f87171;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.resetButton:hover {
+  background-color: #ef4444;
+}
+
+.colorPickerContainer {
+  position: relative;
+  width: 200px;
+}
+
+.colorPickerButton {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .colorPickerPopup {
   position: absolute;
-  top: 100%;
+  top: 110%;
   left: 0;
-  margin-top: 8px;
-  padding: 8px;
+  width: 100%;
+  padding: 0.5rem;
   background: white;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+  z-index: 10;
+}
+
+.colorPickerPopup.open {
+  opacity: 1;
+  visibility: visible;
+  transform: scaleY(1);
+}
+
+.colorGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0.5rem;
+}
+
+.colorOption {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.colorOption:hover {
+  transform: scale(1.1);
+}
+
+@media (min-width: 480px) {
+  .resetButton {
+    width: 200px;
+  }
 }
 
 .colorPicker {
@@ -58,4 +154,10 @@
 
 .colorPicker::-moz-color-swatch {
   border: none;
+}
+
+.open {
+  opacity: 1;
+  visibility: visible;
+  transform: scaleY(1);
 }
