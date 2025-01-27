@@ -15,6 +15,8 @@ export default function Stats() {
   const [lifetimeClicks, setLifetimeClicks] = useState(0);
   const [showHighScore, setShowHighScore] = useState(true);
   const [buttonColor, setButtonColor] = useState("#F87171"); // Default red-400
+  const [hasStats, setHasStats] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
     const savedShowHighScoreSetting = localStorage.getItem("showHighScore");
@@ -46,6 +48,15 @@ export default function Stats() {
     const savedButtonColor = localStorage.getItem("buttonColor");
     if (savedButtonColor) {
       setButtonColor(savedButtonColor);
+    }
+
+    // Check if there are any stats
+    setHasStats(Object.keys(stats.failStats || {}).length > 0);
+
+    // Fetch theme
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme as 'light' | 'dark');
     }
   }, []);
 
@@ -111,31 +122,43 @@ export default function Stats() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <h1 className="text-4xl mb-8 font-bold">Stats Page</h1>
-      <div className="flex w-full max-w-4xl rounded-lg shadow-md">
-        <div className="w-1/2 p-6">
-          <h2 className="text-2xl mb-4 font-semibold">Statistics</h2>
-          {showHighScore && (
+      {hasStats ? (
+        <div className="flex w-full max-w-4xl rounded-lg shadow-md">
+          <div className="w-1/2 p-6">
+            <h2 className="text-2xl mb-4 font-semibold">Statistics</h2>
+            {showHighScore && (
+              <p className="mb-2">
+                <span className="font-bold">High Score:</span> <span className="font-medium">{highScore}</span>
+              </p>
+            )}
             <p className="mb-2">
-              <span className="font-bold">High Score:</span> <span className="font-medium">{highScore}</span>
+              <span className="font-bold">Most Failed Number(s):</span>{" "}
+              <span className="font-medium">{mostFailedNumbers.join(", ")}</span>
             </p>
-          )}
-          <p className="mb-2">
-            <span className="font-bold">Most Failed Number(s):</span>{" "}
-            <span className="font-medium">{mostFailedNumbers.join(", ")}</span>
-          </p>
-          <p className="mb-2">
-            <span className="font-bold">Time Played (Lifetime):</span>{" "}
-            <span className="font-medium">{formatTime(timePlayed)}</span>
-          </p>
-          <p className="mb-2">
-            <span className="font-bold">Lifetime Clicks:</span>{" "}
-            <span className="font-medium">{lifetimeClicks}</span>
-          </p>
+            <p className="mb-2">
+              <span className="font-bold">Time Played (Lifetime):</span>{" "}
+              <span className="font-medium">{formatTime(timePlayed)}</span>
+            </p>
+            <p className="mb-2">
+              <span className="font-bold">Lifetime Clicks:</span>{" "}
+              <span className="font-medium">{lifetimeClicks}</span>
+            </p>
+          </div>
+          <div className="w-1/2 p-6">
+            <Line data={data} options={options} />
+          </div>
         </div>
-        <div className="w-1/2 p-6">
-          <Line data={data} options={options} />
+      ) : (
+        <div className={`flex flex-col items-center justify-center text-center p-6 rounded-lg shadow-md ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>
+          <img
+            src={`/icons/lock-for-${theme}-mode.svg`}
+            alt="Lock Icon"
+            className="w-12 h-12 mb-4"
+          />
+          <h1 className="text-2xl font-bold mb-2">No stats available</h1>
+          <p className="text-gray-600 dark:text-gray-500">Try clicking a few times first</p>
         </div>
-      </div>
+      )}
     </div>
   );
 }
