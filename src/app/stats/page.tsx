@@ -123,8 +123,8 @@ export default function Stats() {
     <div className="min-h-screen flex flex-col items-center justify-center">
       <h1 className="text-4xl mb-8 font-bold">Stats Page</h1>
       {hasStats ? (
-        <div className="flex w-full max-w-4xl rounded-lg shadow-md">
-          <div className="w-1/2 p-6">
+        <div className="flex flex-col md:flex-row w-full max-w-4xl rounded-lg shadow-md">
+          <div className="w-full md:w-1/2 p-6">
             <h2 className="text-2xl mb-4 font-semibold">Statistics</h2>
             {showHighScore && (
               <p className="mb-2">
@@ -144,7 +144,7 @@ export default function Stats() {
               <span className="font-medium">{lifetimeClicks}</span>
             </p>
           </div>
-          <div className="w-1/2 p-6">
+          <div className="w-full md:w-1/2 p-6">
             <Line data={data} options={options} />
           </div>
         </div>
