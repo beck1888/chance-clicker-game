@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import styles from "./settings.module.css";
 
 export default function Settings() {
   const [soundEnabled, setSoundEnabled] = useState(false);
@@ -39,19 +40,21 @@ export default function Settings() {
     <div className="min-h-screen flex flex-col items-center justify-center">
       <h1 className="text-4xl mb-8">Settings Page</h1>
       <div className="flex flex-col items-start space-y-4">
-        <label className="flex items-center space-x-2">
+        <label className="flex items-center space-x-3 cursor-pointer">
           <input
             type="checkbox"
             checked={soundEnabled}
             onChange={handleSoundToggle}
+            className={styles.checkbox}
           />
           <span>Enable Sound</span>
         </label>
-        <label className="flex items-center space-x-2">
+        <label className="flex items-center space-x-3 cursor-pointer">
           <input
             type="checkbox"
             checked={showHighScore}
             onChange={handleShowHighScoreToggle}
+            className={styles.checkbox}
           />
           <span>Show High Score</span>
         </label>
