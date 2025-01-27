@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +37,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [loaded, setLoaded] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -44,14 +45,38 @@ export default function RootLayout({
     if (menu) {
       menu.classList.remove("open");
     }
+  }, [pathname]);
 
-    // Handle theme
+  useEffect(() => {
+    // Initial mount: apply saved theme
     const savedTheme = localStorage.getItem("theme");
     document.documentElement.classList.remove('light', 'dark');
     if (savedTheme) {
       document.documentElement.classList.add(savedTheme);
     }
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    // On page change: hide content, re-apply theme, then show
+    setLoaded(false);
+    const savedTheme = localStorage.getItem("theme");
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove('light', 'dark');
+      if (savedTheme) {
+        document.documentElement.classList.add(savedTheme);
+      }
+      setLoaded(true);
+    });
   }, [pathname]);
+
+  if (!loaded) {
+    return (
+      <html>
+        <body style={{ display: "none" }} />
+      </html>
+    );
+  }
 
   return (
     <html lang="en" className="light">
