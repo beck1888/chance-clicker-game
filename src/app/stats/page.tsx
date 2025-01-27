@@ -15,12 +15,20 @@ export default function Stats() {
   const [lifetimeClicks, setLifetimeClicks] = useState(0);
 
   useEffect(() => {
+    // Function to retrieve high score
+    const getHighScore = () => {
+      const saved = localStorage.getItem("highScore");
+      return saved ? parseInt(saved, 10) : 0;
+    };
+
+    // Fetch stats and high score
     const stats = JSON.parse(localStorage.getItem("stats") || "{}");
     setFailStats(stats.failStats || {});
-    setHighScore(stats.highScore || 0);
+    setHighScore(getHighScore());
     setTimePlayed(stats.timePlayed || 0);
     setLifetimeClicks(stats.lifetimeClicks || 0);
 
+    // Identify most failed numbers
     const maxFails = Math.max(...Object.values(stats.failStats || {}) as number[]);
     const mostFailed = Object.entries(stats.failStats || {})
       .filter(([_, value]) => value === maxFails)
@@ -52,35 +60,35 @@ export default function Stats() {
   const options = {
     scales: {
       x: {
-        type: 'linear' as const,
+        type: "linear" as const,
         title: {
           display: true,
-          text: 'Number',
+          text: "Number",
         },
         ticks: {
-          callback: function(tickValue: string | number) {
+          callback: function (tickValue: string | number) {
             const value = Number(tickValue);
             if (value === 0 || value === highScore || value === Math.floor(highScore / 2)) {
               return value;
             }
-            return '';
+            return "";
           },
         },
       },
       y: {
-        type: 'linear' as const,
+        type: "linear" as const,
         title: {
           display: true,
-          text: 'Fails',
+          text: "Fails",
         },
         ticks: {
-          callback: function(tickValue: string | number) {
+          callback: function (tickValue: string | number) {
             const value = Number(tickValue);
             const maxFails = Math.max(...Object.values(failStats) as number[]);
             if (value === 0 || value === maxFails || value === Math.floor(maxFails / 2)) {
               return value;
             }
-            return '';
+            return "";
           },
         },
       },
@@ -93,10 +101,21 @@ export default function Stats() {
       <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-md">
         <div className="w-1/2 p-6">
           <h2 className="text-2xl mb-4 font-semibold">Statistics</h2>
-          <p className="mb-2"><span className="font-bold">High Score:</span> <span className="font-medium">{highScore}</span></p>
-          <p className="mb-2"><span className="font-bold">Most Failed Number(s):</span> <span className="font-medium">{mostFailedNumbers.join(', ')}</span></p>
-          <p className="mb-2"><span className="font-bold">Time Played (Lifetime):</span> <span className="font-medium">{formatTime(timePlayed)}</span></p>
-          <p className="mb-2"><span className="font-bold">Lifetime Clicks:</span> <span className="font-medium">{lifetimeClicks}</span></p>
+          <p className="mb-2">
+            <span className="font-bold">High Score:</span> <span className="font-medium">{highScore}</span>
+          </p>
+          <p className="mb-2">
+            <span className="font-bold">Most Failed Number(s):</span>{" "}
+            <span className="font-medium">{mostFailedNumbers.join(", ")}</span>
+          </p>
+          <p className="mb-2">
+            <span className="font-bold">Time Played (Lifetime):</span>{" "}
+            <span className="font-medium">{formatTime(timePlayed)}</span>
+          </p>
+          <p className="mb-2">
+            <span className="font-bold">Lifetime Clicks:</span>{" "}
+            <span className="font-medium">{lifetimeClicks}</span>
+          </p>
         </div>
         <div className="w-1/2 p-6">
           <Line data={data} options={options} />
