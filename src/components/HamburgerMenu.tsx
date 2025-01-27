@@ -3,10 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import styles from "./HamburgerMenu.module.css";
+import { usePathname } from "next/navigation";
 
 export default function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -24,6 +26,24 @@ export default function HamburgerMenu() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuRef]);
+
+  useEffect(() => {
+    const menuItems = document.querySelectorAll(`.${styles.menuItem}`);
+
+    const handleClick = () => {
+      setIsOpen(false);
+    };
+
+    menuItems.forEach(item => item.addEventListener("click", handleClick));
+
+    return () => {
+      menuItems.forEach(item => item.removeEventListener("click", handleClick));
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   return (
     <div className="relative" ref={menuRef}>

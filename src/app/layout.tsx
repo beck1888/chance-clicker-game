@@ -3,7 +3,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import HamburgerMenu from "@/components/HamburgerMenu";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const geistSans = Geist({
@@ -37,22 +37,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      const menu = document.querySelector(".hamburger-menu");
-      if (menu) {
-        menu.classList.remove("open");
-      }
-    };
-
-    // Navigation events are handled differently in App Router
-    window.addEventListener('routeChangeComplete', handleRouteChange);
-    return () => {
-      window.removeEventListener('routeChangeComplete', handleRouteChange);
-    };
-  }, []);
+    const menu = document.querySelector(".hamburger-menu");
+    if (menu) {
+      menu.classList.remove("open");
+    }
+  }, [pathname]);
 
   return (
     <html lang="en" className="light">
