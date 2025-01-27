@@ -13,8 +13,14 @@ export default function Stats() {
   const [mostFailedNumbers, setMostFailedNumbers] = useState<string[]>([]);
   const [timePlayed, setTimePlayed] = useState(0);
   const [lifetimeClicks, setLifetimeClicks] = useState(0);
+  const [showHighScore, setShowHighScore] = useState(true);
 
   useEffect(() => {
+    const savedShowHighScoreSetting = localStorage.getItem("showHighScore");
+    if (savedShowHighScoreSetting !== null) {
+      setShowHighScore(savedShowHighScoreSetting === "true");
+    }
+
     // Function to retrieve high score
     const getHighScore = () => {
       const saved = localStorage.getItem("highScore");
@@ -101,9 +107,11 @@ export default function Stats() {
       <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-md">
         <div className="w-1/2 p-6">
           <h2 className="text-2xl mb-4 font-semibold">Statistics</h2>
-          <p className="mb-2">
-            <span className="font-bold">High Score:</span> <span className="font-medium">{highScore}</span>
-          </p>
+          {showHighScore && (
+            <p className="mb-2">
+              <span className="font-bold">High Score:</span> <span className="font-medium">{highScore}</span>
+            </p>
+          )}
           <p className="mb-2">
             <span className="font-bold">Most Failed Number(s):</span>{" "}
             <span className="font-medium">{mostFailedNumbers.join(", ")}</span>

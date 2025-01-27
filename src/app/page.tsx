@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { Button } from "@/components/button";
 import { useState, useEffect } from "react";
 
@@ -6,11 +6,30 @@ export default function Home() {
   const [clicks, setClicks] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [showHighScore, setShowHighScore] = useState(true);
 
-  // Load high score from localStorage on mount
+  // Load settings and high score from localStorage on mount
   useEffect(() => {
+    const savedSoundSetting = localStorage.getItem("soundEnabled");
+    const savedShowHighScoreSetting = localStorage.getItem("showHighScore");
+    setSoundEnabled(savedSoundSetting === "true");
+    setShowHighScore(savedShowHighScoreSetting === "true");
+
     const saved = localStorage.getItem('highScore');
     if (saved) setHighScore(parseInt(saved));
+
+    // Watch for settings changes
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "soundEnabled") {
+        setSoundEnabled(e.newValue === "true");
+      } else if (e.key === "showHighScore") {
+        setShowHighScore(e.newValue === "true");
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   useEffect(() => {
@@ -19,7 +38,18 @@ export default function Home() {
     }
   }, [clicks]);
 
+  const playSound = (src: string) => {
+    if (!soundEnabled) return;
+    const audio = new Audio(src);
+    audio.play().catch(console.error);
+  };
+
   const handleClick = () => {
+    // Start tracking time on first click
+    if (!startTime) {
+      setStartTime(new Date());
+    }
+
     // Generate random number between 0 and 1
     const chance = Math.random();
     // Current probability of reset is equal to click count percentage
@@ -27,7 +57,6 @@ export default function Home() {
     const resetProbability = clicks / 100;
 
     // If random number is less than probability, reset to 0
-    // Otherwise increment the counter
     if (chance < resetProbability) {
       if (startTime) {
         const endTime = new Date();
@@ -37,34 +66,28 @@ export default function Home() {
         localStorage.setItem("stats", JSON.stringify(stats));
         setStartTime(null);
       }
-      trackFail(clicks); // Track the fail
+      trackFail(clicks);
       setClicks(0);
-      // Play fail sound
-      const failAudio = new Audio('/sounds/fail.mp3');
-      failAudio.play();
+      playSound('/sounds/fail.mp3');
     } else {
       const newScore = clicks + 1;
       setClicks(newScore);
-      // Update high score if new score is higher
+      
       if (newScore > highScore) {
         setHighScore(newScore);
-        const stats = JSON.parse(localStorage.getItem("stats") || "{}");
-        stats.highScore = newScore;
         localStorage.setItem('highScore', newScore.toString());
-        localStorage.setItem("stats", JSON.stringify(stats));
       }
-      // Track lifetime clicks
+      
+      // Update stats
       const stats = JSON.parse(localStorage.getItem("stats") || "{}");
       stats.lifetimeClicks = (stats.lifetimeClicks || 0) + 1;
       localStorage.setItem("stats", JSON.stringify(stats));
-      // Play level-up sound if on a multiple of 10 minus one
+      
+      // Play appropriate sound
       if (newScore % 10 === 0) {
-        const levelUpAudio = new Audio('/sounds/level-up.mp3');
-        levelUpAudio.play();
+        playSound('/sounds/level-up.mp3');
       } else {
-        // Play click sound
-        const clickAudio = new Audio('/sounds/click.mp3');
-        clickAudio.play();
+        playSound('/sounds/click.mp3');
       }
     }
   };
@@ -75,9 +98,11 @@ export default function Home() {
         <div className="w-full text-6xl font-bold text-gray-300 bg-gray-100 px-6 py-3 rounded-t-lg border-b border-gray-200 text-center">
           {clicks.toString().padStart(2, '0')}
         </div>
-        <div className="w-full text-2xl font-bold text-gray-200 bg-gray-50 px-6 py-1.5 rounded-b-lg -mt-1 text-center">
-          {highScore.toString().padStart(2, '0')}
-        </div>
+        {showHighScore && (
+          <div className="w-full text-2xl font-bold text-gray-200 bg-gray-50 px-6 py-1.5 rounded-b-lg -mt-1 text-center">
+            {highScore.toString().padStart(2, '0')}
+          </div>
+        )}
       </div>
       <Button 
         className="w-40 h-40 bg-red-400 hover:bg-red-500 ring-8 ring-gray-200 text-xl"
@@ -91,6 +116,7 @@ export default function Home() {
     </div>
   );
 }
+
 function trackFail(clicks: number) {
   const stats = JSON.parse(localStorage.getItem("stats") || "{}");
   stats.failStats = stats.failStats || {};
