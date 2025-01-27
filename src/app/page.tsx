@@ -35,7 +35,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center gap-12 py-24">
+    <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center gap-12 py-24 select-none">
       <div className="flex flex-col items-center w-[180px]">
         <div className="w-full text-6xl font-bold text-gray-300 bg-gray-100 px-6 py-3 rounded-t-lg border-b border-gray-200 text-center">
           {clicks.toString().padStart(2, '0')}
