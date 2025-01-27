@@ -1,0 +1,6 @@
+- add sound selection
+- fix credits
+- optimize for mobile screens
+- make the graph look better
+- add a way to change the graph type (side selector)
+- add a proper readme
