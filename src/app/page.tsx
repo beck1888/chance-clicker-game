@@ -34,9 +34,15 @@ export default function Home() {
         setHighScore(newScore);
         localStorage.setItem('highScore', newScore.toString());
       }
-      // Play click sound
-      const clickAudio = new Audio('/sounds/click.mp3');
-      clickAudio.play();
+      // Play level-up sound if on a multiple of 10 minus one
+      if (newScore % 10 === 0) {
+        const levelUpAudio = new Audio('/sounds/level-up.mp3');
+        levelUpAudio.play();
+      } else {
+        // Play click sound
+        const clickAudio = new Audio('/sounds/click.mp3');
+        clickAudio.play();
+      }
     }
   };
 
