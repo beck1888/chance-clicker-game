@@ -3,8 +3,17 @@
 - optimize for mobile screens
 - make the graph look better (smoother, less jagged text, etc)
 - organize settings by category
-- add a way to change the graph type (side selector)
+- add a way to change the graph type (select buttons along the side for bar or line)
 - add a proper readme
 - fix the bug that lets the enter key submit the form (button)
 - add toasts boxes for levels up
 - music?? (probably will need to host on a CDN)
+- add a favicon
+- Fix bug where high score doesn't show at first
+- Add an end screen for reaching 100
+- cheats
+- easter eggs
+- facts about statistics like by reaching __ you're more likely to __ than reach this number
+- buy me a coffee button
+- make the button click inwards but the ring stay the same size
+- add an option for where each click plays a slightly higher note
