@@ -1,6 +1,10 @@
 - add sound selection
 - fix credits
 - optimize for mobile screens
-- make the graph look better
+- make the graph look better (smoother, less jagged text, etc)
+- organize settings by category
 - add a way to change the graph type (side selector)
 - add a proper readme
+- fix the bug that lets the enter key submit the form (button)
+- add toasts boxes for levels up
+- music?? (probably will need to host on a CDN)
