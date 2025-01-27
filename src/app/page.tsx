@@ -23,6 +23,9 @@ export default function Home() {
     // Otherwise increment the counter
     if (chance < resetProbability) {
       setClicks(0);
+      // Play fail sound
+      const failAudio = new Audio('/sounds/fail.mp3');
+      failAudio.play();
     } else {
       const newScore = clicks + 1;
       setClicks(newScore);
@@ -31,11 +34,10 @@ export default function Home() {
         setHighScore(newScore);
         localStorage.setItem('highScore', newScore.toString());
       }
+      // Play click sound
+      const clickAudio = new Audio('/sounds/click.mp3');
+      clickAudio.play();
     }
-
-    // Play click sound
-    const audio = new Audio('/sounds/click.mp3');
-    audio.play();
   };
 
   return (
