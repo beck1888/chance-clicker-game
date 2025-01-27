@@ -107,9 +107,7 @@ export default function Home() {
       <Button 
         className="w-40 h-40 bg-red-400 hover:bg-red-500 ring-8 ring-gray-200 text-xl"
         onClick={handleClick}
-      >
-        Click
-      </Button>
+      />
       {/* <div className="text-sm text-gray-500">
         Reset chance: {clicks}%
       </div> */}
