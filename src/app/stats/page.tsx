@@ -14,6 +14,7 @@ export default function Stats() {
   const [timePlayed, setTimePlayed] = useState(0);
   const [lifetimeClicks, setLifetimeClicks] = useState(0);
   const [showHighScore, setShowHighScore] = useState(true);
+  const [buttonColor, setButtonColor] = useState("#F87171"); // Default red-400
 
   useEffect(() => {
     const savedShowHighScoreSetting = localStorage.getItem("showHighScore");
@@ -40,6 +41,12 @@ export default function Stats() {
       .filter(([_, value]) => value === maxFails)
       .map(([key]) => key);
     setMostFailedNumbers(mostFailed);
+
+    // Fetch button color
+    const savedButtonColor = localStorage.getItem("buttonColor");
+    if (savedButtonColor) {
+      setButtonColor(savedButtonColor);
+    }
   }, []);
 
   const formatTime = (seconds: number) => {
@@ -55,8 +62,8 @@ export default function Stats() {
       {
         label: "Fails per Number",
         data: Array.from({ length: highScore + 1 }, (_, i) => failStats[i] || 0),
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: `${buttonColor}33`, // 20% opacity
+        borderColor: buttonColor,
         borderWidth: 1,
         fill: false,
       },
