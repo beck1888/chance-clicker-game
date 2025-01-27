@@ -99,19 +99,19 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center gap-12 py-24 select-none">
+    <div className="min-h-screen flex flex-col items-center justify-center gap-12 py-24 select-none">
       <div className="flex flex-col items-center w-[180px]">
-        <div className="w-full text-6xl font-bold text-gray-300 bg-gray-100 px-6 py-3 rounded-t-lg border-b border-gray-200 text-center">
+        <div className={`w-full text-6xl font-bold text-gray-300 bg-gray-100 px-6 py-3 rounded-t-lg border-b border-gray-200 text-center ${document.documentElement.classList.contains('dark') ? 'dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700' : ''}`}>
           {clicks.toString().padStart(2, '0')}
         </div>
         {showHighScore && (
-          <div className="w-full text-2xl font-bold text-gray-200 bg-gray-50 px-6 py-1.5 rounded-b-lg -mt-1 text-center">
+          <div className={`w-full text-2xl font-bold text-gray-200 bg-gray-50 px-6 py-1.5 rounded-b-lg -mt-1 text-center ${document.documentElement.classList.contains('dark') ? 'dark:bg-gray-700 dark:text-gray-200' : ''}`}>
             {highScore.toString().padStart(2, '0')}
           </div>
         )}
       </div>
       <Button 
-        className="w-40 h-40 ring-8 ring-gray-200 text-xl"
+        className={`w-40 h-40 ring-8 text-xl ${document.documentElement.classList.contains('dark') ? 'dark:ring-gray-700' : 'ring-gray-200'}`}
         style={{ backgroundColor: buttonColor }}
         onClick={handleClick}
       />

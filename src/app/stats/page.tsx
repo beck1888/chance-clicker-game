@@ -102,9 +102,9 @@ export default function Stats() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex flex-col items-center justify-center">
       <h1 className="text-4xl mb-8 font-bold">Stats Page</h1>
-      <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-md">
+      <div className="flex w-full max-w-4xl rounded-lg shadow-md">
         <div className="w-1/2 p-6">
           <h2 className="text-2xl mb-4 font-semibold">Statistics</h2>
           {showHighScore && (

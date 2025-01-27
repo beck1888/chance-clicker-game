@@ -7,11 +7,13 @@ export default function Settings() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [showHighScore, setShowHighScore] = useState(true);
   const [buttonColor, setButtonColor] = useState("#F87171"); // Default red-400
+  const [darkMode, setDarkMode] = useState<'light' | 'dark' | 'system'>('system');
 
   useEffect(() => {
     const savedSoundSetting = localStorage.getItem("soundEnabled");
     const savedShowHighScoreSetting = localStorage.getItem("showHighScore");
     const savedButtonColor = localStorage.getItem("buttonColor");
+    const savedTheme = localStorage.getItem("theme");
     
     if (savedSoundSetting !== null) {
       setSoundEnabled(savedSoundSetting === "true");
@@ -21,6 +23,9 @@ export default function Settings() {
     }
     if (savedButtonColor) {
       setButtonColor(savedButtonColor);
+    }
+    if (savedTheme) {
+      setDarkMode(savedTheme as 'light' | 'dark' | 'system');
     }
   }, []);
 
@@ -46,6 +51,18 @@ export default function Settings() {
     const newColor = e.target.value;
     setButtonColor(newColor);
     localStorage.setItem("buttonColor", newColor);
+  };
+
+  const handleThemeChange = (theme: 'light' | 'dark' | 'system') => {
+    setDarkMode(theme);
+    localStorage.setItem("theme", theme);
+    if (theme === 'system') {
+      localStorage.removeItem("theme");
+    }
+    document.documentElement.classList.remove('light', 'dark');
+    if (theme !== 'system') {
+      document.documentElement.classList.add(theme);
+    }
   };
 
   return (
@@ -80,6 +97,42 @@ export default function Settings() {
           />
           <span>Button Color</span>
         </label>
+
+        <div className="flex flex-col space-y-2">
+          <span>Theme</span>
+          <div className="flex space-x-4">
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                checked={darkMode === 'light'}
+                onChange={() => handleThemeChange('light')}
+                name="theme"
+                className={styles.checkbox}
+              />
+              <span>Light</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                checked={darkMode === 'dark'}
+                onChange={() => handleThemeChange('dark')}
+                name="theme"
+                className={styles.checkbox}
+              />
+              <span>Dark</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                checked={darkMode === 'system'}
+                onChange={() => handleThemeChange('system')}
+                name="theme"
+                className={styles.checkbox}
+              />
+              <span>System</span>
+            </label>
+          </div>
+        </div>
 
         <button
           className="px-4 py-2 bg-red-500 text-white rounded"

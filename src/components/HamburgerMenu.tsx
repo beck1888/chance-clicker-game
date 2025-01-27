@@ -56,7 +56,7 @@ export default function HamburgerMenu() {
         <span className={`${styles.line} ${isOpen ? styles.line3Open : ""}`}></span>
       </button>
       {isOpen && (
-        <div className="absolute top-10 left-0 bg-white shadow-lg rounded-lg p-4">
+        <div className={`absolute top-10 left-0 shadow-lg rounded-lg p-4 ${styles.menu}`}>
           <Link href="/" className={`block py-2 ${styles.menuItem}`}>Home</Link>
           <Link href="/stats" className={`block py-2 ${styles.menuItem}`}>Stats</Link>
           <Link href="/settings" className={`block py-2 ${styles.menuItem}`}>Settings</Link>

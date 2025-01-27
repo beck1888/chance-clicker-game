@@ -44,12 +44,19 @@ export default function RootLayout({
     if (menu) {
       menu.classList.remove("open");
     }
+
+    // Handle theme
+    const savedTheme = localStorage.getItem("theme");
+    document.documentElement.classList.remove('light', 'dark');
+    if (savedTheme) {
+      document.documentElement.classList.add(savedTheme);
+    }
   }, [pathname]);
 
   return (
-    <html lang="en" className="light">
+    <html lang="en" className={localStorage.getItem("theme") || "light"}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <header className="absolute top-4 left-4">
           <HamburgerMenu />
