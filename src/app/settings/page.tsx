@@ -25,6 +25,7 @@ export default function Settings() {
     }
     if (savedButtonColor) {
       setButtonColor(savedButtonColor);
+      document.documentElement.style.setProperty('--button-color', savedButtonColor); // Update CSS variable
     }
     if (savedTheme) {
       setDarkMode(savedTheme as 'light' | 'dark');
@@ -65,6 +66,7 @@ export default function Settings() {
   const handleColorChange = (color: string) => {
     setButtonColor(color);
     localStorage.setItem("buttonColor", color);
+    document.documentElement.style.setProperty('--button-color', color); // Update CSS variable
     setIsColorPickerOpen(false);
   };
 
@@ -106,7 +108,7 @@ export default function Settings() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl mb-8">Settings Page</h1>
+      <h1 className="text-4xl mb-8">Settings</h1>
       <div className="flex flex-col items-start space-y-6 w-80">
         {/* Sound and High Score Toggles */}
         <div className="flex flex-col space-y-4">

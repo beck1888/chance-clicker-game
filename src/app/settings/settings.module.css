@@ -14,6 +14,7 @@
   position: relative;
   width: 50px;
   height: 24px;
+  margin-left: 10px; /* Add margin to the left */
 }
 
 .toggle input {
@@ -47,7 +48,7 @@
 }
 
 input:checked + .slider {
-  background-color: #4ade80;
+  background-color: var(--button-color); /* Use the selected button color */
 }
 
 input:checked + .slider::before {
@@ -57,7 +58,7 @@ input:checked + .slider::before {
 .resetButton {
   width: 100%;
   padding: 0.5rem;
-  background-color: #f87171;
+  background-color: var(--button-color); /* Use the selected button color */
   color: white;
   border: none;
   border-radius: 0.25rem;
@@ -77,8 +78,9 @@ input:checked + .slider::before {
 .colorPickerButton {
   width: 100%;
   padding: 0.5rem;
-  background-color: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background-color: var(--background-lighter);
+  color: var(--foreground);
+  border: none; /* Remove the border */
   border-radius: 0.25rem;
   cursor: pointer;
   display: flex;
@@ -92,7 +94,9 @@ input:checked + .slider::before {
   left: 0;
   width: 100%;
   padding: 0.5rem;
-  background: white;
+  background: var(--background-lighter);
+  color: var(--foreground);
+  border: none; /* Remove the border */
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   opacity: 0;
