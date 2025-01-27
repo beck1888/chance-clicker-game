@@ -48,8 +48,15 @@ export default function Home() {
       // Update high score if new score is higher
       if (newScore > highScore) {
         setHighScore(newScore);
+        const stats = JSON.parse(localStorage.getItem("stats") || "{}");
+        stats.highScore = newScore;
         localStorage.setItem('highScore', newScore.toString());
+        localStorage.setItem("stats", JSON.stringify(stats));
       }
+      // Track lifetime clicks
+      const stats = JSON.parse(localStorage.getItem("stats") || "{}");
+      stats.lifetimeClicks = (stats.lifetimeClicks || 0) + 1;
+      localStorage.setItem("stats", JSON.stringify(stats));
       // Play level-up sound if on a multiple of 10 minus one
       if (newScore % 10 === 0) {
         const levelUpAudio = new Audio('/sounds/level-up.mp3');
@@ -94,5 +101,5 @@ function trackFail(clicks: number) {
       ['0', 0])[0];
   localStorage.setItem("stats", JSON.stringify(stats));
 }
-  
+
 
