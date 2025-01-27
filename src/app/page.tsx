@@ -42,7 +42,7 @@ export default function Home() {
     if (clicks > 0 && !startTime) {
       setStartTime(new Date());
     }
-  }, [clicks]);
+  }, [clicks, startTime]);
 
   const playSound = (src: string) => {
     if (!soundEnabled) return;

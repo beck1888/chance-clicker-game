@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { CategoryScale, LinearScale } from "chart.js";
+import Image from 'next/image';
 
 Chart.register(CategoryScale, LinearScale);
 
@@ -40,7 +41,7 @@ export default function Stats() {
     // Identify most failed numbers
     const maxFails = Math.max(...Object.values(stats.failStats || {}) as number[]);
     const mostFailed = Object.entries(stats.failStats || {})
-      .filter(([_, value]) => value === maxFails)
+      .filter(([, value]) => value === maxFails)
       .map(([key]) => key);
     setMostFailedNumbers(mostFailed);
 
@@ -150,10 +151,12 @@ export default function Stats() {
         </div>
       ) : (
         <div className={`flex flex-col items-center justify-center text-center p-6 rounded-lg shadow-md ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>
-          <img
+          <Image
             src={`/icons/lock-for-${theme}-mode.svg`}
             alt="Lock Icon"
-            className="w-12 h-12 mb-4"
+            width={48}
+            height={48}
+            className="mb-4"
           />
           <h1 className="text-2xl font-bold mb-2">No stats available</h1>
           <p className="text-gray-600 dark:text-gray-500">Try clicking a few times first</p>
