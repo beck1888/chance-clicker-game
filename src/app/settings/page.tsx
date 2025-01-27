@@ -6,15 +6,21 @@ import styles from "./settings.module.css";
 export default function Settings() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [showHighScore, setShowHighScore] = useState(true);
+  const [buttonColor, setButtonColor] = useState("#F87171"); // Default red-400
 
   useEffect(() => {
     const savedSoundSetting = localStorage.getItem("soundEnabled");
     const savedShowHighScoreSetting = localStorage.getItem("showHighScore");
+    const savedButtonColor = localStorage.getItem("buttonColor");
+    
     if (savedSoundSetting !== null) {
       setSoundEnabled(savedSoundSetting === "true");
     }
     if (savedShowHighScoreSetting !== null) {
       setShowHighScore(savedShowHighScoreSetting === "true");
+    }
+    if (savedButtonColor) {
+      setButtonColor(savedButtonColor);
     }
   }, []);
 
@@ -34,6 +40,12 @@ export default function Settings() {
       localStorage.removeItem("highScore");
       alert("Stats have been reset.");
     }
+  };
+
+  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = e.target.value;
+    setButtonColor(newColor);
+    localStorage.setItem("buttonColor", newColor);
   };
 
   return (
@@ -58,6 +70,17 @@ export default function Settings() {
           />
           <span>Show High Score</span>
         </label>
+        
+        <label className="flex items-center space-x-3 cursor-pointer">
+          <input
+            type="color"
+            value={buttonColor}
+            onChange={handleColorChange}
+            className={styles.colorPicker}
+          />
+          <span>Button Color</span>
+        </label>
+
         <button
           className="px-4 py-2 bg-red-500 text-white rounded"
           onClick={handleResetStats}

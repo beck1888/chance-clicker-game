@@ -8,6 +8,7 @@ export default function Home() {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [showHighScore, setShowHighScore] = useState(true);
+  const [buttonColor, setButtonColor] = useState("#F87171");
 
   // Load settings and high score from localStorage on mount
   useEffect(() => {
@@ -19,12 +20,17 @@ export default function Home() {
     const saved = localStorage.getItem('highScore');
     if (saved) setHighScore(parseInt(saved));
 
+    const savedButtonColor = localStorage.getItem("buttonColor");
+    if (savedButtonColor) setButtonColor(savedButtonColor);
+
     // Watch for settings changes
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === "soundEnabled") {
         setSoundEnabled(e.newValue === "true");
       } else if (e.key === "showHighScore") {
         setShowHighScore(e.newValue === "true");
+      } else if (e.key === "buttonColor") {
+        setButtonColor(e.newValue || "#F87171");
       }
     };
 
@@ -105,7 +111,8 @@ export default function Home() {
         )}
       </div>
       <Button 
-        className="w-40 h-40 bg-red-400 hover:bg-red-500 ring-8 ring-gray-200 text-xl"
+        className="w-40 h-40 ring-8 ring-gray-200 text-xl"
+        style={{ backgroundColor: buttonColor }}
         onClick={handleClick}
       />
       {/* <div className="text-sm text-gray-500">
