@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import styles from "./settings.module.css";
 
 export default function Settings() {
-  const [soundEnabled, setSoundEnabled] = useState(false);
-  const [showHighScore, setShowHighScore] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(true); // Default to true
+  const [showHighScore, setShowHighScore] = useState(true); // Default to true
   const [buttonColor, setButtonColor] = useState("#F87171"); // Default red-400
-  const [darkMode, setDarkMode] = useState<'light' | 'dark'>('light');
+  const [darkMode, setDarkMode] = useState<'light' | 'dark'>('light'); // Default to light
 
   useEffect(() => {
     const savedSoundSetting = localStorage.getItem("soundEnabled");
@@ -48,15 +48,16 @@ export default function Settings() {
   };
 
   const handleResetSettings = () => {
-    setSoundEnabled(false);
-    setShowHighScore(true);
-    setButtonColor("#F87171");
-    setDarkMode('light');
-    localStorage.removeItem("soundEnabled");
-    localStorage.removeItem("showHighScore");
-    localStorage.removeItem("buttonColor");
-    localStorage.removeItem("theme");
+    setSoundEnabled(true); // Reset to default
+    setShowHighScore(true); // Reset to default
+    setButtonColor("#F87171"); // Reset to default
+    setDarkMode('light'); // Reset to default
+    localStorage.setItem("soundEnabled", "true");
+    localStorage.setItem("showHighScore", "true");
+    localStorage.setItem("buttonColor", "#F87171");
+    localStorage.setItem("theme", "light");
     document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light');
   };
 
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
