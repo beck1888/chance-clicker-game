@@ -27,6 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [loaded, setLoaded] = useState(false);
+  const [theme, setTheme] = useState("");
   const pathname = usePathname();
 
   useEffect(() => {
@@ -39,15 +40,13 @@ export default function RootLayout({
   useEffect(() => {
     // Initial mount: apply saved theme
     const savedTheme = localStorage.getItem("theme");
-    document.documentElement.classList.remove('light', 'dark');
-    if (savedTheme) {
-      document.documentElement.classList.add(savedTheme);
-    }
+    setTheme(savedTheme || "light");
     setLoaded(true);
   }, []);
 
+  // Remove or comment out the following effect:
+  /*
   useEffect(() => {
-    // On page change: hide content, re-apply theme, then show
     setLoaded(false);
     const savedTheme = localStorage.getItem("theme");
     requestAnimationFrame(() => {
@@ -58,6 +57,7 @@ export default function RootLayout({
       setLoaded(true);
     });
   }, [pathname]);
+  */
 
   if (!loaded) {
     return (
@@ -68,7 +68,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className="light">
+    <html lang="en" className={theme}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
