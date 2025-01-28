@@ -82,6 +82,7 @@ export default function Settings() {
     localStorage.setItem("theme", theme);
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
+    setIsThemePickerOpen(false); // Close the theme picker
   };
 
   const toggleThemePicker = () => {
@@ -136,7 +137,7 @@ export default function Settings() {
         {/* Sound and High Score Toggles */}
         <div className="flex flex-col space-y-4">
           <label className="flex items-center justify-between w-full">
-            <span>Enable Sound</span>
+            <span>Sound</span>
             <div className={styles.toggle}>
               <input
                 type="checkbox"
@@ -147,7 +148,7 @@ export default function Settings() {
             </div>
           </label>
           <label className="flex items-center justify-between w-full">
-            <span>Show High Score</span>
+            <span>High Score</span>
             <div className={styles.toggle}>
               <input
                 type="checkbox"
@@ -168,17 +169,17 @@ export default function Settings() {
               onClick={toggleColorPicker}
             >
               <span style={{ backgroundColor: buttonColor }} className="w-6 h-6 rounded-full"></span>
-              <span>Select</span>
-            </button>
-            <div className={`${styles.colorPickerPopup} ${isColorPickerOpen ? styles.open : ''}`}>
-              <div className={styles.colorGrid}>
+                <span className="flex-1 text-center mx-auto px-4">Select</span>
+                </button>
+                <div className={`${styles.colorPickerPopup} ${isColorPickerOpen ? styles.open : ''}`}>
+                <div className={styles.colorGrid}>
                 {predefinedColors.map((color) => (
-                  <div
-                    key={color}
-                    className={styles.colorOption}
-                    style={{ backgroundColor: color }}
-                    onClick={() => handleColorChange(color)}
-                  ></div>
+                <div
+                key={color}
+                className={styles.colorOption}
+                style={{ backgroundColor: color }}
+                onClick={() => handleColorChange(color)}
+                ></div>
                 ))}
               </div>
             </div>
@@ -193,15 +194,16 @@ export default function Settings() {
               className={`${styles.themePickerButton} ${isThemePickerOpen ? 'open' : ''}`}
               onClick={toggleThemePicker}
             >
-              <span>{darkMode === 'dark' ? 'Dark' : 'Light'}</span>
-              {/* <span>Choose Theme</span> */}
+              <span className="flex-1 text-center mx-auto px-4">
+          {darkMode === 'dark' ? 'Dark' : 'Light'}
+              </span>
             </button>
             <div className={`${styles.themePickerPopup} ${isThemePickerOpen ? styles.open : ''}`}>
               <div className={styles.themeOption} onClick={() => handleThemeChange('light')}>
-                Light
+          Light
               </div>
               <div className={styles.themeOption} onClick={() => handleThemeChange('dark')}>
-                Dark
+          Dark
               </div>
             </div>
           </div>
