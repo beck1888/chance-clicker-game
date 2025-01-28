@@ -29,6 +29,7 @@ export default function Settings() {
     }
     if (savedTheme) {
       setDarkMode(savedTheme as 'light' | 'dark');
+      document.documentElement.classList.add(savedTheme);
     }
   }, []);
 

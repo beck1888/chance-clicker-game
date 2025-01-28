@@ -10,9 +10,9 @@
 }
 
 :root.dark {
-  --background: #121212;
+  --background: #2c2c2c; /* Softer dark grey */
   --foreground: #ededed;
-  --background-lighter: #1e1e1e; /* Slightly lighter background color for dark mode */
+  --background-lighter: #3a3a3a; /* Slightly lighter background color for dark mode */
 }
 
 body {

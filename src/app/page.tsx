@@ -9,6 +9,7 @@ export default function Home() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showHighScore, setShowHighScore] = useState(true);
   const [buttonColor, setButtonColor] = useState("#F87171");
+  const [loaded, setLoaded] = useState(false);
 
   // Load settings and high score from localStorage on mount
   useEffect(() => {
@@ -22,6 +23,13 @@ export default function Home() {
 
     const savedButtonColor = localStorage.getItem("buttonColor");
     if (savedButtonColor) setButtonColor(savedButtonColor);
+
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      document.documentElement.classList.add(savedTheme);
+    }
+
+    setLoaded(true);
 
     // Watch for settings changes
     const handleStorageChange = (e: StorageEvent) => {
@@ -97,6 +105,10 @@ export default function Home() {
       }
     }
   };
+
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-12 py-24 select-none">

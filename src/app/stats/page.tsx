@@ -18,6 +18,7 @@ export default function Stats() {
   const [buttonColor, setButtonColor] = useState("#F87171"); // Default red-400
   const [hasStats, setHasStats] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const savedShowHighScoreSetting = localStorage.getItem("showHighScore");
@@ -58,7 +59,10 @@ export default function Stats() {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       setTheme(savedTheme as 'light' | 'dark');
+      document.documentElement.classList.add(savedTheme);
     }
+
+    setLoaded(true);
   }, []);
 
   const formatTime = (seconds: number) => {
@@ -119,6 +123,10 @@ export default function Stats() {
       },
     },
   };
+
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
