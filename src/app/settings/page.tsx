@@ -137,7 +137,6 @@ export default function Settings() {
         {/* Sound and High Score Toggles */}
         <div className="flex flex-col space-y-4">
           <label className="flex items-center justify-between w-full">
-            <span>Sound</span>
             <div className={styles.toggle}>
               <input
                 type="checkbox"
@@ -146,9 +145,9 @@ export default function Settings() {
               />
               <span className={styles.slider}></span>
             </div>
+            <span className="pl-2 text-left w-full">Sound</span>
           </label>
           <label className="flex items-center justify-between w-full">
-            <span>High Score</span>
             <div className={styles.toggle}>
               <input
                 type="checkbox"
@@ -157,6 +156,7 @@ export default function Settings() {
               />
               <span className={styles.slider}></span>
             </div>
+            <span className="pl-2 text-left w-full">High Score</span>
           </label>
         </div>
 

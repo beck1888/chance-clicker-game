@@ -52,8 +52,7 @@ input:checked + .slider {
 }
 
 input:checked + .slider::before {
-  /* THIS VALUE IS STATIC AND MAY NOT WORK ACROSS ALL SCREENS */
-  transform: translateX(10px); /* Further reduced translateX to prevent overflow */
+  transform: translateX(18px);  /* Further reduced translateX to prevent overflow */
 }
 
 .resetButton {
