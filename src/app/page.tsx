@@ -6,7 +6,7 @@ export default function Home() {
   const [clicks, setClicks] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const [showHighScore, setShowHighScore] = useState(true);
   const [buttonColor, setButtonColor] = useState("#F87171");
 
@@ -14,8 +14,8 @@ export default function Home() {
   useEffect(() => {
     const savedSoundSetting = localStorage.getItem("soundEnabled");
     const savedShowHighScoreSetting = localStorage.getItem("showHighScore");
-    setSoundEnabled(savedSoundSetting === "true");
-    setShowHighScore(savedShowHighScoreSetting === "true");
+    setSoundEnabled(savedSoundSetting !== null ? savedSoundSetting === "true" : true);
+    setShowHighScore(savedShowHighScoreSetting !== null ? savedShowHighScoreSetting === "true" : true);
 
     const saved = localStorage.getItem('highScore');
     if (saved) setHighScore(parseInt(saved));

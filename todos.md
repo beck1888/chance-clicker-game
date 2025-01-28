@@ -17,5 +17,4 @@
 - buy me a coffee button
 - make the button click inwards but the ring stay the same size
 - add an option for where each click plays a slightly higher note
-- bugfix: on first page render the high score doesn't show despite being set to on in the settings
 - bugfix: dark mode toggle switches but doesn't actually update the page on built versions (dev seems to work fine)
