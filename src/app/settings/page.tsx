@@ -10,6 +10,8 @@ export default function Settings() {
   const [darkMode, setDarkMode] = useState<'light' | 'dark'>('light'); // Default to light
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
+  const [isThemePickerOpen, setIsThemePickerOpen] = useState(false);
+  const themePickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const savedSoundSetting = localStorage.getItem("soundEnabled");
@@ -82,6 +84,10 @@ export default function Settings() {
     document.documentElement.classList.add(theme);
   };
 
+  const toggleThemePicker = () => {
+    setIsThemePickerOpen(!isThemePickerOpen);
+  };
+
   // Close color picker when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -90,6 +96,22 @@ export default function Settings() {
         !colorPickerRef.current.contains(event.target as Node)
       ) {
         setIsColorPickerOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Close theme picker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        themePickerRef.current &&
+        !themePickerRef.current.contains(event.target as Node)
+      ) {
+        setIsThemePickerOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -139,14 +161,14 @@ export default function Settings() {
 
         {/* Color Picker */}
         <div className="flex flex-col space-y-2 w-full">
-          <span>Button Color</span>
+          <span>Accent Color</span>
           <div className={styles.colorPickerContainer} ref={colorPickerRef}>
             <button
-              className={styles.colorPickerButton}
+              className={`${styles.colorPickerButton} ${isColorPickerOpen ? 'open' : ''}`}
               onClick={toggleColorPicker}
             >
               <span style={{ backgroundColor: buttonColor }} className="w-6 h-6 rounded-full"></span>
-              <span>Choose Color</span>
+              <span>Select</span>
             </button>
             <div className={`${styles.colorPickerPopup} ${isColorPickerOpen ? styles.open : ''}`}>
               <div className={styles.colorGrid}>
@@ -166,14 +188,23 @@ export default function Settings() {
         {/* Theme Selection */}
         <div className="flex flex-col space-y-2 w-full">
           <span>Theme</span>
-          <select
-            value={darkMode}
-            onChange={(e) => handleThemeChange(e.target.value as 'light' | 'dark')}
-            className={`p-2 border rounded ${darkMode === 'dark' ? 'bg-gray-800 text-gray-100 border-gray-700' : 'bg-white text-black border-gray-300'}`}
-          >
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
+          <div className={styles.themePickerContainer} ref={themePickerRef}>
+            <button
+              className={`${styles.themePickerButton} ${isThemePickerOpen ? 'open' : ''}`}
+              onClick={toggleThemePicker}
+            >
+              <span>{darkMode === 'dark' ? 'Dark' : 'Light'}</span>
+              {/* <span>Choose Theme</span> */}
+            </button>
+            <div className={`${styles.themePickerPopup} ${isThemePickerOpen ? styles.open : ''}`}>
+              <div className={styles.themeOption} onClick={() => handleThemeChange('light')}>
+                Light
+              </div>
+              <div className={styles.themeOption} onClick={() => handleThemeChange('dark')}>
+                Dark
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Reset Buttons */}
